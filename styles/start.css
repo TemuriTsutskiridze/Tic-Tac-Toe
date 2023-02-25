@@ -1,0 +1,16 @@
+* {
+    font-family: 'Outfit', sans-serif;
+}
+
+:root {
+    --sky: rgba(49, 195, 189, 1);
+    --sky-hover: rgba(101, 233, 228, 1);
+    --yellow: rgba(242, 177, 55, 1);
+    --yellow-hover: rgba(255, 200, 96, 1);
+    --body-background: rgba(26, 42, 51, 1);
+    --box-background: rgba(31, 54, 65, 1);
+    --gray-dark: rgba(168, 191, 201, 1);
+    --gray-light: rgba(219, 232, 237, 1);
+}
+
+
