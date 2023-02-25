@@ -1,0 +1,144 @@
+:root {
+    --blue-dark: #31C3BD;
+    --blue-light: #65E9E4;
+    --yellow-dark: #F2B137;
+    --yellow-light: #FFC860;
+    --navy-dark: #1A2A33;
+    --navy-light: #1F3641;
+    --gray-dark: #A8BFC9;
+    --gray-light: #DBE8ED;
+}
+
+body {
+    background-color: var(--navy-dark);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Outfit', sans-serif;
+}
+
+.container {
+    width: 327px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+
+.pick_player {
+    width: 100%;
+    padding: 24px 24px 30px;
+    background-color: var(--navy-light);
+    box-shadow: inset 0px -8px 0px #10212A;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    color: var(--gray-dark);
+}
+
+.choose {
+    width: 100%;
+    padding: 9px 8px;
+    background-color: var(--navy-dark);
+    border-radius: 10px;
+    margin-top: 24px;
+    display: flex;
+}
+
+.choose_container {
+    width: 132px;
+    height: 54px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+.choose_container:hover {
+    background: rgba(168, 191, 201, 0.05);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.choose_container svg {
+    transform: scale(0.5);
+}
+
+.active {
+    background-color: var(--gray-dark);
+}
+
+.active svg path {
+    fill: var(--navy-dark);
+}
+
+.remember {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.875px;
+    color: var(--gray-dark);
+    mix-blend-mode: normal;
+    opacity: 0.5;
+    margin-top: 17px;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.start_button {
+    width: 100%;
+    height: 56px;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    color: var(--navy-dark);
+    font-family: 'Outfit', sans-serif;
+    border: none;
+}
+
+.start_button p {
+    margin-bottom: 6px;
+}
+
+#CPU {
+    background: var(--yellow-dark);
+    box-shadow: inset 0px -8px 0px #CC8B13;
+    transition: 0.5s;
+}
+
+#CPU:hover {
+    background: var(--yellow-light);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+#PLAYER {
+    background: var(--blue-dark);
+    box-shadow: inset 0px -8px 0px #118C87;
+    transition: 0.5s;
+}
+
+#PLAYER:hover {
+    background: var(--blue-light);
+    transition: 0.5s;
+    cursor: pointer;
+}
