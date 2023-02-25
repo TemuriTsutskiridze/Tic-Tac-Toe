@@ -19,7 +19,9 @@ body {
     font-family: 'Outfit', sans-serif;
 }
 
-.container {
+/* ----------------------- MENU ------------------ */
+
+.menu {
     width: 327px;
     display: flex;
     flex-direction: column;
@@ -141,4 +143,31 @@ body {
     background: var(--blue-light);
     transition: 0.5s;
     cursor: pointer;
+}
+
+/* ----------------------- MENU-tablet ------------------ */
+
+@media (min-width: 768px) {
+    .menu {
+        width: 450px;
+    }
+
+    .pick_player {
+        margin-top: 40px;
+    }
+
+    .choose_container {
+        width: 198px;
+    }
+
+    .buttons {
+        gap: 20px;
+    }
+
+    .start_button {
+        font-size: 16px;
+        line-height: 20px;
+        letter-spacing: 1px;
+        height: 67px;
+    }
 }
