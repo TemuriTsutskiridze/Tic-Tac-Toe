@@ -1,13 +1,15 @@
 `use strict`
 
+let menu = document.querySelector(".menu");
+let choose_buttons = document.getElementsByClassName("choose_container");
 let x = document.getElementById("x");
 let o = document.getElementById("o");
-let choose_buttons = document.getElementsByClassName("choose_container")
 let cpu = document.getElementById("CPU");
 let vs_player = document.getElementById("PLAYER");
 
-let first_player;
+let game = document.querySelector(".game");
 
+let first_player;
 
 Array.from(choose_buttons).forEach(element => {
     element.addEventListener("click", () => {
@@ -23,6 +25,8 @@ Array.from(choose_buttons).forEach(element => {
     })
 });
 
-vs_player.addEventListener("click", () => {
-    
-});
+// game.style.display = "none";
+// vs_player.addEventListener("click", () => {
+//     menu.style.display = "none";
+//     game.style.display = "flex"
+// });
