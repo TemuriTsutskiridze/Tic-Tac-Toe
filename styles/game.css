@@ -11,6 +11,8 @@
 
 .game {
     width: 328px;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -23,7 +25,7 @@ header svg {
     justify-self: flex-start;
 }
 
-.turn {
+#turn {
     margin-right: 14px;
     width: 106px;
     height: 40px;
@@ -36,7 +38,7 @@ header svg {
     gap: 9px;
 }
 
-.turn svg {
+#turn svg {
     height: 16px;
     width: 16px;
 }
@@ -56,9 +58,21 @@ header svg {
     justify-self: flex-end;
     width: 40px;
     height: 40px;
-    background: var(--gray-light);
+    background: var(--gray-dark);
     box-shadow: inset 0px -4px 0px #6B8997;
     border-radius: 5px;
+    transition: 0.5s;
+}
+
+.restart:hover {
+    background: var(--gray-light);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.restart svg {
+    width: 15.4px;
+    height: 15.4px;
 }
 
 .board {
@@ -73,6 +87,18 @@ header svg {
     background: var(--navy-light);
     box-shadow: inset 0px -8px 0px #10212A;
     border-radius: 10px;
+    background-repeat: no-repeat;
+    background-size: 40px 40px;
+    background-position: center;
+    border: none;
+}
+
+.box:hover {
+    background-image: url(../assets/icon-x-outline.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40px 40px;
+    cursor: pointer;
 }
 
 .you, .tie, .cpu {
