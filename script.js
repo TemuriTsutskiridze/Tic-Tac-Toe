@@ -14,6 +14,10 @@ let game = document.querySelector(".game");
 let restart = document.querySelector(".restart");
 let boxes = document.querySelectorAll(".box");
 let turn = document.getElementById("turn");
+let player_x = document.querySelector(".player_x");
+let player_x_points = document.querySelector(".player_x_points");
+let player_o = document.querySelector(".player_o");
+let player_o_points = document.querySelector(".player_o_points");
 
 // --------------------- win elements -------------------- //
 
@@ -54,6 +58,13 @@ vs_player.addEventListener("click", () => {
     if (first_player != undefined) {
         menu.style.display = "none";
         game.style.display = "flex"
+        if (first_player == "x") {
+            player_x.textContent = "X (P1)";
+            player_o.textContent = "O (P2)";
+        } else {
+            player_x.textContent = "X (P2)";
+            player_o.textContent = "O (P1)";
+        }
     }
 });
 
@@ -84,9 +95,12 @@ reset();
 
 restart.addEventListener("click", () => {
     win_background.style.display = "flex";
-    player.textContent = "ROUND TIED"
+    player.textContent = "RESTART GAME?";
     winner_container.style.display = "none";
-    player.classList.add("tied");
+    quit.classList.add("restart_cancel_button");
+    quit.classList.add("restart_button");
+    quit.textContent = "NO, CANCEL";
+    next_round.textContent = "YES, RESTART";
 });
 
 quit.addEventListener("click", () => {
@@ -111,6 +125,12 @@ function reset() {
         element.classList.remove("o_hover");
         element.addEventListener("click", handleClick);
     });
+
+    quit.classList.remove("restart_cancel_button");
+    quit.classList.remove("restart_button");
+    quit.textContent = "QUIT";
+    next_round.textContent = "NEXT ROUND";
+
     clickedButtons = [
         [1, 2, 3],
         [4, 5, 6],
@@ -172,10 +192,28 @@ function handleClick(event) {
     // Remove the event listener from the clicked button
     element.removeEventListener("click", handleClick);
     console.log(clickedButtons);
-}
 
+    function checkForTie(array) {
+        for (let i = 0; i <= 2; i++) {
+          for (let j = 0; j <= 2; j++) {
+            if (!isNaN(array[i][j])) {
+              return false;
+            }
+          }
+        }
+        return true;
+    }
+
+    if (checkForTie(clickedButtons) == true && !win) {
+        win_background.style.display = "flex";
+        player.textContent = "ROUND TIED"
+        winner_container.style.display = "none";
+        player.classList.add("tied");
+    }
+}
+let win;
 // check for win positions
-function checkForWin() {
+let checkForWin = function() {
     if ((clickedButtons[0][0] === clickedButtons[0][1] && clickedButtons[0][1] === clickedButtons[0][2]) ||
         (clickedButtons[1][0] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[1][2]) ||
         (clickedButtons[2][0] === clickedButtons[2][1] && clickedButtons[2][1] === clickedButtons[2][2]) ||
@@ -185,6 +223,7 @@ function checkForWin() {
         (clickedButtons[0][0] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][2]) ||
         (clickedButtons[0][2] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][0])) {
             if (player_turn == "x") {
+                win = true;
                 win_background.style.display = "flex";
                 player.classList.remove("tied");
                 winner_container.style.display = "flex";
@@ -197,6 +236,7 @@ function checkForWin() {
                 }
                 console.log("o");
             } else {
+                win = true;
                 win_background.style.display = "flex";
                 player.classList.remove("tied");
                 winner_container.style.display = "flex";
@@ -211,7 +251,6 @@ function checkForWin() {
             }
     }
 }
-
 
 
 

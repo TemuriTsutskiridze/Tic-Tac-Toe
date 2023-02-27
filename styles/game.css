@@ -107,17 +107,26 @@ header svg {
     color: var(--navy-dark);
 }
 
-.you_text, .tie_text, .cpu_text {
+.player_x, .tie_text, .player_o {
     font-weight: 500;
     font-size: 12px;
     line-height: 15px;
     letter-spacing: 0.75px;  
 }
 
-.you_points, .tie_points, .cpu_points {
+.player_x_points, .tie_points, .player_o_points {
     font-weight: 700;
     font-size: 20px;
     line-height: 25px;
     letter-spacing: 1.25px;
 }
 
+.restart_cancel_button {
+    width: 139px !important;
+    height: 52px;
+}
+
+.restart_button {
+    width: 151px !important;
+    height: 52px;
+}
