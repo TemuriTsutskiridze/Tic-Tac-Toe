@@ -20,6 +20,7 @@ let turn = document.getElementById("turn");
 let win_background = document.querySelector(".win_background");
 let win_icon = document.querySelector(".winner_icon");
 let winner_text = document.querySelector(".winner_text");
+let winner_container = document.querySelector(".winner");
 let player = document.querySelector(".player");
 let quit = document.querySelector(".quit");
 let next_round = document.querySelector(".next");
@@ -82,7 +83,10 @@ let clickedButtons = [
 reset();
 
 restart.addEventListener("click", () => {
-    reset();
+    win_background.style.display = "flex";
+    player.textContent = "ROUND TIED"
+    winner_container.style.display = "none";
+    player.classList.add("tied");
 });
 
 quit.addEventListener("click", () => {
@@ -177,11 +181,13 @@ function checkForWin() {
         (clickedButtons[2][0] === clickedButtons[2][1] && clickedButtons[2][1] === clickedButtons[2][2]) ||
         (clickedButtons[0][0] === clickedButtons[1][0] && clickedButtons[1][0] === clickedButtons[2][0]) ||
         (clickedButtons[0][1] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][1]) ||
-        (clickedButtons[0][2] === clickedButtons[1][2] && clickedButtons[2][2] === clickedButtons[2][2]) ||
+        (clickedButtons[0][2] === clickedButtons[1][2] && clickedButtons[1][2] === clickedButtons[2][2]) ||
         (clickedButtons[0][0] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][2]) ||
         (clickedButtons[0][2] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][0])) {
             if (player_turn == "x") {
                 win_background.style.display = "flex";
+                player.classList.remove("tied");
+                winner_container.style.display = "flex";
                 win_icon.src = "assets/icon-o.svg";
                 winner_text.style.color = "var(--yellow-light)";
                 if (first_player == "x") {
@@ -192,6 +198,8 @@ function checkForWin() {
                 console.log("o");
             } else {
                 win_background.style.display = "flex";
+                player.classList.remove("tied");
+                winner_container.style.display = "flex";
                 win_icon.src = "assets/icon-x.svg";
                 winner_text.style.color = "var(--blue-light)";
                 if (first_player == "x") {
