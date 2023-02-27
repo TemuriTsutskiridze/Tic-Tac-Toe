@@ -1,0 +1,89 @@
+.win_background {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    background-blend-mode: normal;
+}
+
+.win {
+    padding: 40px 0 48px;
+    background: var(--navy-light);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 700;
+}
+
+.player {
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.875px;
+    color: var(--gray-dark);
+}
+
+.winner {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.winner_icon {
+    width: 30px;
+    height: 30px;
+}
+
+.winner_text {
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: 1.5px;
+    color: var(--yellow-light);
+}
+
+.win_state_buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    color: #1A2A33;
+}
+
+.quit {
+    width: 76px;
+    height: 52px;
+    background: var(--gray-dark);
+    box-shadow: inset 0px -4px 0px #6B8997;
+    border-radius: 10px;
+    transition: 0.5s;
+    border: none;
+}
+
+.quit:hover {
+    cursor: pointer;
+    background: var(--gray-light);
+    transition: 0.5s;
+}
+
+.next {
+    width: 146px;
+    height: 52px;
+    background: var(--yellow-dark);
+    box-shadow: inset 0px -4px 0px #CC8B13;
+    border-radius: 10px;
+    transition: 0.5s;
+    border: none;
+}
+
+.next:hover {
+    cursor: pointer;
+    background: var(--yellow-light);
+    transition: 0.5s;
+}
+

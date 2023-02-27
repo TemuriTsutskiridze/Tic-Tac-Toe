@@ -1,14 +1,3 @@
-:root {
-    --blue-dark: #31C3BD;
-    --blue-light: #65E9E4;
-    --yellow-dark: #F2B137;
-    --yellow-light: #FFC860;
-    --navy-dark: #1A2A33;
-    --navy-light: #1F3641;
-    --gray-dark: #A8BFC9;
-    --gray-light: #DBE8ED;
-}
-
 .game {
     width: 328px;
     display: flex;
@@ -92,13 +81,21 @@ header svg {
     background-position: center;
     border: none;
 }
-
 .box:hover {
     background-image: url(../assets/icon-x-outline.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 40px 40px;
     cursor: pointer;
+}
+
+
+.x_hover:hover {
+    background-image: url(../assets/icon-x-outline.svg) !important;
+}
+
+.o_hover:hover {
+    background-image: url(../assets/icon-o-outline.svg) !important;
 }
 
 .you, .tie, .cpu {
@@ -123,5 +120,4 @@ header svg {
     line-height: 25px;
     letter-spacing: 1.25px;
 }
-
 
