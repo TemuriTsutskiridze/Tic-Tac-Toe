@@ -18,6 +18,7 @@ let player_x = document.querySelector(".player_x");
 let player_x_points = document.querySelector(".player_x_points");
 let player_o = document.querySelector(".player_o");
 let player_o_points = document.querySelector(".player_o_points");
+let tie_points = document.querySelector(".tie_points");
 
 // --------------------- win elements -------------------- //
 
@@ -152,6 +153,7 @@ function reset() {
 
 let o_point = 0;
 let x_point = 0;
+let tie_point = 0;
 
 function handleClick(event) {
     let element = event.target;
@@ -218,14 +220,15 @@ function handleClick(event) {
         return true;
     }
 
-    // if no one wins, therefore its tie
+    // check for tie --- if no one wins, therefore its tie
     if (checkForTie(clickedButtons) == true && !win) {
-        setTimeout(() => {
-            win_background.style.display = "flex";
-            player.textContent = "ROUND TIED"
-            winner_container.style.display = "none";
-            player.classList.add("tied");
-        }, "1000")
+        // add tie points
+        tie_point++;
+        tie_points.textContent = String(tie_point);
+        win_background.style.display = "flex";
+        player.textContent = "ROUND TIED"
+        winner_container.style.display = "none";
+        player.classList.add("tied");
     }
 }
 
@@ -242,43 +245,40 @@ let checkForWin = function() {
         (clickedButtons[0][0] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][2]) ||
         (clickedButtons[0][2] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][0])) {
             if (player_turn == "x") {
-                setTimeout(() => {
-                    win = true;
-                    win_background.style.display = "flex";
-                    player.classList.remove("tied");
-                    winner_container.style.display = "flex";
-                    win_icon.src = "assets/icon-o.svg";
-                    winner_text.style.color = "var(--yellow-light)";
-                    // adding point
-                    o_point++;
-                    player_o_points.textContent = String(o_point);
-                    if (first_player == "x") {
-                        player.textContent = "PLAYER 1 WINS";
-                    } else if (first_player = "o"){
-                        player.textContent = "PLAYER 2 WINS";
-                    }
-                    console.log("o");
-                }, "1000")
+                win = true;
+                win_background.style.display = "flex";
+                player.classList.remove("tied");
+                winner_container.style.display = "flex";
+                win_icon.src = "assets/icon-o.svg";
+                winner_text.style.color = "var(--yellow-light)";
+                // adding point
+                o_point++;
+                player_o_points.textContent = String(o_point);
+                if (first_player == "x") {
+                    player.textContent = "PLAYER 2 WINS";
+                } else if (first_player = "o"){
+                    player.textContent = "PLAYER 1 WINS";
+                }
+                console.log("o");
+
                 
             } else {
-                setTimeout(() => {
-                    win = true;
-                    win_background.style.display = "flex";
-                    player.classList.remove("tied");
-                    winner_container.style.display = "flex";
-                    win_icon.src = "assets/icon-x.svg";
-                    winner_text.style.color = "var(--blue-light)";
-                    // adding point
-                    x_point++;
-                    player_x_points.textContent = String(x_point);
-                    if (first_player == "x") {
-                        player.textContent = "PLAYER 1 WINS";
-                    } else if (first_player = "o"){
-                        player.textContent = "PLAYER 2 WINS";
-                    }
-                    console.log("x");
-                }, "1000")
-                
+                win = true;
+                win_background.style.display = "flex";
+                player.classList.remove("tied");
+                winner_container.style.display = "flex";
+                win_icon.src = "assets/icon-x.svg";
+                winner_text.style.color = "var(--blue-light)";
+                // adding point
+                x_point++;
+                player_x_points.textContent = String(x_point);
+                if (first_player == "x") {
+                    player.textContent = "PLAYER 1 WINS";
+                } else if (first_player = "o"){
+                    player.textContent = "PLAYER 2 WINS";
+                }
+                console.log("x");
+
             }
     }
 }
