@@ -53,7 +53,7 @@ Array.from(choose_buttons).forEach(element => {
 });
 
 
-// player vs player mode 
+// player vs player mode button
 vs_player.addEventListener("click", () => {
     if (first_player != undefined) {
         menu.style.display = "none";
@@ -68,11 +68,7 @@ vs_player.addEventListener("click", () => {
     }
 });
 
-quit.addEventListener("click", () => {
-    win_background.style.display = "none";
-    reset();
-});
-
+// next round button
 next_round.addEventListener("click", () => {
     win_background.style.display = "none";
     reset();
@@ -82,17 +78,20 @@ next_round.addEventListener("click", () => {
 // --------------------- game functions, variables and eventlisteners --------------------- //
 
 
-
+// setting player turn to "x" on default
 let player_turn = "x";
 
+// creating array to track the game later
 let clickedButtons = [
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9]
 ];
 
+// calling reset function
 reset();
 
+// restart button
 restart.addEventListener("click", () => {
     win_background.style.display = "flex";
     player.textContent = "RESTART GAME?";
@@ -103,19 +102,29 @@ restart.addEventListener("click", () => {
     next_round.textContent = "YES, RESTART";
 });
 
+// quit button
 quit.addEventListener("click", () => {
-    win_background.style.display = "none";
-    game.style.display = "none";
-    menu.style.display = "flex";
-    player_turn = "x";
-    reset();
+    // quit button
+    if (!quit.classList.contains("restart_cancel_button")) {
+        win_background.style.display = "none";
+        game.style.display = "none";
+        menu.style.display = "flex";
+        player_turn = "x";
+        reset();
+    }
+    // cancel button
+    if (quit.classList.contains("restart_cancel_button")) {
+        win_background.style.display = "none";
+    }
 });
 
 
 
 // -------------------------- functions --------------------------- //
 
+// reset function
 function reset() {
+    // setting everything on default
     Array.from(boxes).forEach((element, index) => {
         element.dataset.row = Math.floor(index / 3);
         element.dataset.col = index % 3;
@@ -140,6 +149,10 @@ function reset() {
 }
 
 // functionality after click on game grid element
+
+let o_point = 0;
+let x_point = 0;
+
 function handleClick(event) {
     let element = event.target;
     let row = element.dataset.row;
@@ -193,6 +206,7 @@ function handleClick(event) {
     element.removeEventListener("click", handleClick);
     console.log(clickedButtons);
 
+    // cheching for tie (if very element of the array is not number, it means that it is tie)
     function checkForTie(array) {
         for (let i = 0; i <= 2; i++) {
           for (let j = 0; j <= 2; j++) {
@@ -204,13 +218,18 @@ function handleClick(event) {
         return true;
     }
 
+    // if no one wins, therefore its tie
     if (checkForTie(clickedButtons) == true && !win) {
-        win_background.style.display = "flex";
-        player.textContent = "ROUND TIED"
-        winner_container.style.display = "none";
-        player.classList.add("tied");
+        setTimeout(() => {
+            win_background.style.display = "flex";
+            player.textContent = "ROUND TIED"
+            winner_container.style.display = "none";
+            player.classList.add("tied");
+        }, "1000")
     }
 }
+
+// initializing win variabkle to track for tie and win
 let win;
 // check for win positions
 let checkForWin = function() {
@@ -223,31 +242,43 @@ let checkForWin = function() {
         (clickedButtons[0][0] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][2]) ||
         (clickedButtons[0][2] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][0])) {
             if (player_turn == "x") {
-                win = true;
-                win_background.style.display = "flex";
-                player.classList.remove("tied");
-                winner_container.style.display = "flex";
-                win_icon.src = "assets/icon-o.svg";
-                winner_text.style.color = "var(--yellow-light)";
-                if (first_player == "x") {
-                    player.textContent = "PLAYER 1 WINS";
-                } else if (first_player = "o"){
-                    player.textContent = "PLAYER 2 WINS";
-                }
-                console.log("o");
+                setTimeout(() => {
+                    win = true;
+                    win_background.style.display = "flex";
+                    player.classList.remove("tied");
+                    winner_container.style.display = "flex";
+                    win_icon.src = "assets/icon-o.svg";
+                    winner_text.style.color = "var(--yellow-light)";
+                    // adding point
+                    o_point++;
+                    player_o_points.textContent = String(o_point);
+                    if (first_player == "x") {
+                        player.textContent = "PLAYER 1 WINS";
+                    } else if (first_player = "o"){
+                        player.textContent = "PLAYER 2 WINS";
+                    }
+                    console.log("o");
+                }, "1000")
+                
             } else {
-                win = true;
-                win_background.style.display = "flex";
-                player.classList.remove("tied");
-                winner_container.style.display = "flex";
-                win_icon.src = "assets/icon-x.svg";
-                winner_text.style.color = "var(--blue-light)";
-                if (first_player == "x") {
-                    player.textContent = "PLAYER 1 WINS";
-                } else if (first_player = "o"){
-                    player.textContent = "PLAYER 2 WINS";
-                }
-                console.log("x");
+                setTimeout(() => {
+                    win = true;
+                    win_background.style.display = "flex";
+                    player.classList.remove("tied");
+                    winner_container.style.display = "flex";
+                    win_icon.src = "assets/icon-x.svg";
+                    winner_text.style.color = "var(--blue-light)";
+                    // adding point
+                    x_point++;
+                    player_x_points.textContent = String(x_point);
+                    if (first_player == "x") {
+                        player.textContent = "PLAYER 1 WINS";
+                    } else if (first_player = "o"){
+                        player.textContent = "PLAYER 2 WINS";
+                    }
+                    console.log("x");
+                }, "1000")
+                
             }
     }
 }
