@@ -1,4 +1,4 @@
-.win_background {
+.end-game {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -7,9 +7,10 @@
     align-items: center;
     background: rgba(0, 0, 0, 0.5);
     background-blend-mode: normal;
+    display: none;
 }
 
-.win {
+.end {
     padding: 40px 0 48px;
     background: var(--navy-light);
     width: 100%;
@@ -26,11 +27,17 @@
     color: var(--gray-dark);
 }
 
-.winner {
+.win {
     margin-top: 16px;
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-direction: column;
+}
+
+.winner {
+    display: flex;
+    gap: 10px;
 }
 
 .winner_icon {
@@ -45,7 +52,7 @@
     color: var(--yellow-light);
 }
 
-.win_state_buttons {
+.end-game_state_buttons {
     display: flex;
     gap: 16px;
     margin-top: 24px;
@@ -91,4 +98,5 @@
     font-size: 24px;
     line-height: 30px;
     letter-spacing: 1.5px;
+    color: var(--gray-dark);
 }

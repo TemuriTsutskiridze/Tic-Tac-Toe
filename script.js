@@ -1,287 +1,142 @@
 `use strict`
-// -------------------------- menu elements ----------------------//
-debugger
-let menu = document.querySelector(".menu");
-let choose_buttons = document.getElementsByClassName("choose_container");
-let x = document.getElementById("x");
-let o = document.getElementById("o");
-let cpu = document.getElementById("CPU");
-let vs_player = document.getElementById("PLAYER");
 
-// ---------------------- game elements ---------------------- //
+const choiceButtons = document.querySelectorAll(".choose_container");
+const game_vs_palyer = document.getElementById("PLAYER");
+const board_boxes = document.querySelectorAll(".box");
+const menu = document.querySelector(".menu");
+const game = document.querySelector(".game");
+const end_game = document.querySelector(".end-game");
+const turnEl = document.getElementById("turnIcon");
+const winnerIconEl = document.querySelector(".winner_icon");
+const tiedEL = document.querySelector(".tied");
+const player_winsEl = document.querySelector(".player");
 
-let game = document.querySelector(".game");
-let restart = document.querySelector(".restart");
-let boxes = document.querySelectorAll(".box");
-let turn = document.getElementById("turn");
-let player_x = document.querySelector(".player_x");
-let player_x_points = document.querySelector(".player_x_points");
-let player_o = document.querySelector(".player_o");
-let player_o_points = document.querySelector(".player_o_points");
-let tie_points = document.querySelector(".tie_points");
-
-// --------------------- win elements -------------------- //
-
-let win_background = document.querySelector(".win_background");
-let win_icon = document.querySelector(".winner_icon");
-let winner_text = document.querySelector(".winner_text");
-let winner_container = document.querySelector(".winner");
-let player = document.querySelector(".player");
-let quit = document.querySelector(".quit");
-let next_round = document.querySelector(".next");
-
-// ---------- menu functions, variables and eventlisteners ------------ //
-
-game.style.display = "none";
-win_background.style.display = "none";
-
-let first_player;
-
-// adding and removing hover classes to game grid elements
-
-Array.from(choose_buttons).forEach(element => {
-    element.addEventListener("click", () => {
-        if (element.id == "x") {
-            x.classList.add("active");
-            o.classList.remove("active");
-            first_player = "x"
-        } else {
-            o.classList.add("active");
-            x.classList.remove("active");
-            first_player = "o"
-        }
-    })
-});
-
-
-// player vs player mode button
-vs_player.addEventListener("click", () => {
-    if (first_player != undefined) {
-        menu.style.display = "none";
-        game.style.display = "flex"
-        if (first_player == "x") {
-            player_x.textContent = "X (P1)";
-            player_o.textContent = "O (P2)";
-        } else {
-            player_x.textContent = "X (P2)";
-            player_o.textContent = "O (P1)";
-        }
-    }
-});
-
-// next round button
-next_round.addEventListener("click", () => {
-    win_background.style.display = "none";
-    reset();
-});
-
-
-// --------------------- game functions, variables and eventlisteners --------------------- //
-
-
-// setting player turn to "x" on default
-let player_turn = "x";
-
-// creating array to track the game later
-let clickedButtons = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
+let xArray = [];
+let oArray = [];
+let freeButtons = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+let winCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
 ];
 
-// calling reset function
-reset();
-
-// restart button
-restart.addEventListener("click", () => {
-    win_background.style.display = "flex";
-    player.textContent = "RESTART GAME?";
-    winner_container.style.display = "none";
-    quit.classList.add("restart_cancel_button");
-    quit.classList.add("restart_button");
-    quit.textContent = "NO, CANCEL";
-    next_round.textContent = "YES, RESTART";
-});
-
-// quit button
-quit.addEventListener("click", () => {
-    // quit button
-    if (!quit.classList.contains("restart_cancel_button")) {
-        win_background.style.display = "none";
-        game.style.display = "none";
-        menu.style.display = "flex";
-        player_turn = "x";
-        reset();
+let first_player = null;
+const choice = (icon) => {
+    if (icon === "x") {
+        choiceButtons[0].classList.add("active");
+        choiceButtons[1].classList.remove("active");
+        first_player = "x";
+    } else {
+        choiceButtons[0].classList.remove("active");
+        choiceButtons[1].classList.add("active");
+        first_player = "o";
     }
-    // cancel button
-    if (quit.classList.contains("restart_cancel_button")) {
-        win_background.style.display = "none";
-    }
-});
-
-
-
-// -------------------------- functions --------------------------- //
-
-// reset function
-function reset() {
-    // setting everything on default
-    Array.from(boxes).forEach((element, index) => {
-        element.dataset.row = Math.floor(index / 3);
-        element.dataset.col = index % 3;
-        element.dataset.playerTurn = "x"; // set default player turn
-        element.style.backgroundImage = "none";
-        element.classList.add("x_hover");
-        element.classList.remove("o_hover");
-        element.addEventListener("click", handleClick);
-    });
-
-    quit.classList.remove("restart_cancel_button");
-    quit.classList.remove("restart_button");
-    quit.textContent = "QUIT";
-    next_round.textContent = "NEXT ROUND";
-
-    clickedButtons = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-    ];
-    player_turn = "x";
-
-    turn.firstElementChild.innerHTML = '<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="var(--gray-dark)" fill-rule="evenodd"/></svg>'
-
 }
 
-// functionality after click on game grid element
-
-let o_point = 0;
-let x_point = 0;
-let tie_point = 0;
-
-function handleClick(event) {
-    let element = event.target;
-    let row = element.dataset.row;
-    let col = element.dataset.col;
-
-    if (player_turn == "x") {
-        element.style.backgroundImage = "url(./assets/icon-x.svg)";
-        clickedButtons[row][col] = "x";
-        player_turn = "o";
-        turn.firstElementChild.innerHTML = '<path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="var(--gray-dark)"/>';
-        // removing and adding hover classes to boxes that have not been clicked
-        Array.from(boxes).forEach(box => {
-            for (let row = 0; row <= 2; row++) {
-                for (let col = 0; col <= 2; col++) {
-                    if (typeof clickedButtons[row][col] === 'number') {
-                        if (box.value == clickedButtons[row][col]) {
-                            box.classList.remove("x_hover");
-                            box.classList.add("o_hover");
-                        }
-                    }
-                }
-            }
-        });
-        element.classList.remove("x_hover");
-        element.classList.remove("o_hover");
-        checkForWin();
-    } else if (player_turn == "o") {
-        element.style.backgroundImage = "url(./assets/icon-o.svg)";
-        clickedButtons[row][col] = "o";
-        player_turn = "x";
-        turn.firstElementChild.innerHTML = '<path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="var(--gray-dark)" fill-rule="evenodd"/>';
-        // removing and adding hover classes to boxes that have not been clicked
-        Array.from(boxes).forEach(box => {
-            for (let row = 0; row <= 2; row++) {
-                for (let col = 0; col <= 2; col++) {
-                    if (typeof clickedButtons[row][col] === 'number') {
-                        if (box.value == clickedButtons[row][col]) {
-                            box.classList.remove("o_hover");
-                            box.classList.add("x_hover");
-                        }
-                    }
-                }
-            }
-        });;
-        element.classList.remove("x_hover");
-        element.classList.remove("o_hover");
-        checkForWin();
-    }
-
-    // Remove the event listener from the clicked button
-    element.removeEventListener("click", handleClick);
-    console.log(clickedButtons);
-
-    // cheching for tie (if very element of the array is not number, it means that it is tie)
-    function checkForTie(array) {
-        for (let i = 0; i <= 2; i++) {
-          for (let j = 0; j <= 2; j++) {
-            if (!isNaN(array[i][j])) {
-              return false;
-            }
-          }
+const hoverEffects = () => {
+    for (let i = 0; i < freeButtons.length; i++) {
+        let freeButtonIndex = freeButtons[i];
+        if (turn === "x"){
+            board_boxes[freeButtonIndex].classList.add("x_hover");
+            board_boxes[freeButtonIndex].classList.remove("o_hover")
+        } else {
+            board_boxes[freeButtonIndex].classList.add("o_hover");
+            board_boxes[freeButtonIndex].classList.remove("x_hover")
         }
-        return true;
-    }
-
-    // check for tie --- if no one wins, therefore its tie
-    if (checkForTie(clickedButtons) == true && !win) {
-        // add tie points
-        tie_point++;
-        tie_points.textContent = String(tie_point);
-        win_background.style.display = "flex";
-        player.textContent = "ROUND TIED"
-        winner_container.style.display = "none";
-        player.classList.add("tied");
     }
 }
 
-// initializing win variabkle to track for tie and win
-let win;
-// check for win positions
-let checkForWin = function() {
-    if ((clickedButtons[0][0] === clickedButtons[0][1] && clickedButtons[0][1] === clickedButtons[0][2]) ||
-        (clickedButtons[1][0] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[1][2]) ||
-        (clickedButtons[2][0] === clickedButtons[2][1] && clickedButtons[2][1] === clickedButtons[2][2]) ||
-        (clickedButtons[0][0] === clickedButtons[1][0] && clickedButtons[1][0] === clickedButtons[2][0]) ||
-        (clickedButtons[0][1] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][1]) ||
-        (clickedButtons[0][2] === clickedButtons[1][2] && clickedButtons[1][2] === clickedButtons[2][2]) ||
-        (clickedButtons[0][0] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][2]) ||
-        (clickedButtons[0][2] === clickedButtons[1][1] && clickedButtons[1][1] === clickedButtons[2][0])) {
-            if (player_turn == "x") {
-                win = true;
-                win_background.style.display = "flex";
-                player.classList.remove("tied");
-                winner_container.style.display = "flex";
-                win_icon.src = "assets/icon-o.svg";
-                winner_text.style.color = "var(--yellow-light)";
-                // adding point
-                o_point++;
-                player_o_points.textContent = String(o_point);
-                if (first_player == "x") {
-                    player.textContent = "PLAYER 2 WINS";
-                } else if (first_player = "o"){
-                    player.textContent = "PLAYER 1 WINS";
-                }
-                console.log("o");
+const clickFunction = () => {
+    for (let i = 0; i < board_boxes.length; i++) {
+        board_boxes[i].onclick = (event) => {
 
-                
+            let spliceIndex = freeButtons.indexOf(i);
+            freeButtons.splice(spliceIndex, 1);
+
+            event.target.classList.remove("x_hover");
+            event.target.classList.remove("o_hover");
+            const icon = document.createElement("img");
+
+            icon.classList.add("game-icon");
+            if (turn === "x") {
+                icon.src = "/assets/icon-x.svg";
+                turn = "o";
+                turnEl.innerHTML = '<path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="var(--gray-dark)"/>'
+                xArray.push(i);
             } else {
-                win = true;
-                win_background.style.display = "flex";
-                player.classList.remove("tied");
-                winner_container.style.display = "flex";
-                win_icon.src = "assets/icon-x.svg";
-                winner_text.style.color = "var(--blue-light)";
-                // adding point
-                x_point++;
-                player_x_points.textContent = String(x_point);
-                if (first_player == "x") {
-                    player.textContent = "PLAYER 1 WINS";
-                } else if (first_player = "o"){
-                    player.textContent = "PLAYER 2 WINS";
-                }
-                console.log("x");
-
+                icon.src = "/assets/icon-o.svg";
+                turn = "x";
+                turnEl.innerHTML = '<path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="var(--gray-dark)" fill-rule="evenodd"/>';
+                oArray.push(i);
             }
+            event.target.append(icon);
+            event.target.onclick = null;
+            hoverEffects();
+            checkForWin();
+        }
     }
 }
+
+let mode = null;
+let turn = null;
+const startGame = (modeParameter) => {
+    if (first_player) {
+        menu.style.display = "none";
+        game.style.display = "flex";
+        mode = modeParameter;
+        turn = "x";
+        hoverEffects();
+        clickFunction();
+    }
+}
+
+const checkForWin = () => {
+    for (let winCombo of winCombos) {
+        if (winCombo.every((element) => xArray.includes(element))) {
+            colorWinCombo("var(--blue-light)", "hue-rotate(24deg) saturate(35%) brightness(19%)", winCombo);
+            
+            winnerIconEl.src = "assets/icon-x.svg";
+            tiedEL.style.display = "none";
+            deleteClickOnBoxes();
+            setTimeout(() => {
+                end_game.style.display = "flex";
+            }, 1000);
+
+        }
+        else if (winCombo.every((element) => oArray.includes(element))) {
+            colorWinCombo("var(--yellow-light)", "hue-rotate(160deg) saturate(35%) brightness(19%)", winCombo);
+            
+            winnerIconEl.src = "assets/icon-o.svg";
+            tiedEL.style.display = "none";
+            deleteClickOnBoxes();
+            setTimeout(() => {
+                end_game.style.display = "flex";
+            }, 1000);
+        }
+    }
+}
+
+const deleteClickOnBoxes = () => {
+    for (let i = 0; i < board_boxes.length; i++) {
+        board_boxes[i].onclick = null;
+    }
+}
+
+const colorWinCombo = (backgroundColor, iconColor, winCombo) => {
+    for (let i = 0; i < winCombo.length; i++) {
+        let boxIndex = winCombo[i];
+        board_boxes[boxIndex].style.background = backgroundColor;
+        board_boxes[boxIndex].firstElementChild.style.filter = iconColor;
+    }
+}
+
+
+
+
+
+

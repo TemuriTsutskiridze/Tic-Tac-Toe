@@ -1,6 +1,5 @@
 .game {
-    width: 328px;
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 
@@ -80,15 +79,21 @@ header svg {
     background-size: 40px 40px;
     background-position: center;
     border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .box:hover {
-    background-image: url(../assets/icon-x-outline.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 40px 40px;
     cursor: pointer;
 }
 
+.game-icon {
+    width: 40px;
+    height: 40px;
+}
 
 .x_hover:hover {
     background-image: url(../assets/icon-x-outline.svg) !important;
@@ -129,4 +134,21 @@ header svg {
 .restart_button {
     width: 151px !important;
     height: 52px;
+}
+
+
+@media (min-width: 768px) {
+    .game-icon {
+        width: 64px;
+        height: 64px;
+    }
+
+    .board {
+        grid-template-columns: repeat(3, 140px);
+        grid-template-rows: 140px 140px 140px 72px;
+    }
+
+    .x_hover:hover, .o_hover:hover {
+        background-size: 64px 64px;
+    }
 }
