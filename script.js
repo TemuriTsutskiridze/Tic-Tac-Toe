@@ -95,6 +95,7 @@ const startGame = (modeParameter) => {
     }
 }
 
+let countForTie = 0;
 const checkForWin = () => {
     for (let winCombo of winCombos) {
         if (winCombo.every((element) => xArray.includes(element))) {
@@ -119,13 +120,19 @@ const checkForWin = () => {
             }, 1000);
         }
     }
+    countForTie++;
+    if (countForTie == 9) {
+        console.log("tied");
+    }
 }
+
 
 const deleteClickOnBoxes = () => {
     for (let i = 0; i < board_boxes.length; i++) {
         board_boxes[i].onclick = null;
     }
 }
+
 
 const colorWinCombo = (backgroundColor, iconColor, winCombo) => {
     for (let i = 0; i < winCombo.length; i++) {
