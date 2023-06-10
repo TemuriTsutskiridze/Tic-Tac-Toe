@@ -121,7 +121,7 @@ const checkForWin = () => {
         winCombo
       );
 
-      winnerIconEl.src = "assets/icon-x.svg";
+      winnerIconEl.src = "./assets/icon-x.svg";
       tiedEL.style.display = "none";
       deleteClickOnBoxes();
       scoreX++;
@@ -142,7 +142,7 @@ const checkForWin = () => {
         winCombo
       );
 
-      winnerIconEl.src = "assets/icon-o.svg";
+      winnerIconEl.src = "./assets/icon-o.svg";
       tiedEL.style.display = "none";
       scoreO++;
       localStorage.setItem("scoreO", scoreO);
